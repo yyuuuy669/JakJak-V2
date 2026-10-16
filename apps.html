@@ -3,119 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apps</title> <!-- change this to ur title of the tab -->
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #6a4c9c;
-            color: white;
-        }
-        header {
-            background-color: #5e3b8f;
-            color: white;
-            padding: 20px 30px;
-            display: flex;
-            justify-content: flex-end;
-        }
-        header button {
-            background-color: #7f5f9f;
-            border: none;
-            padding: 10px 20px;
-            color: white;
-            font-size: 18px;
-            cursor: pointer;
-            border-radius: 5px;
-            margin-left: 20px;
-        }
-        header button:hover {
-            background-color: #9b6fcf;
-        }
-        .section {
-            padding: 40px;
-            text-align: center;
-            background-color: #7f5f9f;
-        }
-        .app-card {
-            display: inline-block;
-            width: 200px;
-            height: 250px;
-            background-color: #8e6ba7;
-            margin: 15px;
-            border-radius: 10px;
-            cursor: pointer;
-            color: white;
-            text-align: center;
-        }
-        .app-card img {
-            width: 100%;
-            height: 160px;
-            border-radius: 10px 10px 0 0;
-        }
-        .app-card h3 {
-            margin-top: 10px;
-        }
-        footer {
-            background-color: #5e3b8f;
-            color: white;
-            text-align: center;
-            padding: 20px 0;
-        }
-        iframe.fullscreen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-            z-index: 1000;
-        }
-    </style>
-    <script>
-        function openFullscreen(url) {
-            const iframe = document.createElement('iframe');
-            iframe.src = url;
-            iframe.className = 'fullscreen';
-            iframe.setAttribute('allowfullscreen', '');
-            document.body.appendChild(iframe);
-
-            iframe.onclick = () => {
-                iframe.remove(); // closes iframe on click, delete if not wanted
-            };
-        }
-    </script>
+    <title>Apps</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script>window.ITEMS = [{"name":"WhatsApp Web","url":"https://web.whatsapp.com/"},{"name":"Discord","url":"https://discord.com/app"},{"name":"YouTube","url":"https://www.youtube.com/"},{"name":"ChatGPT","url":"https://chatgpt.com/"},{"name":"Google Drive","url":"https://drive.google.com/"}];</script>
+    <script src="app.js"></script>
 </head>
 <body>
-    <header>
-        <button onclick="location.href='index.html'">Games</button>
-        <button onclick="location.href='apps.html'">Apps</button>
-    </header>
-    <div class="section">
-        <h2>Full-Screen Apps</h2>
-        <div class="app-card" onclick="openFullscreen('https://web.whatsapp.com/')">
-            <img src="https://via.placeholder.com/200x160" alt="WhatsApp Web">
-            <h3>WhatsApp Web</h3>
-        </div>
-        <div class="app-card" onclick="openFullscreen('https://discord.com/app')">
-            <img src="https://via.placeholder.com/200x160" alt="Discord">
-            <h3>Discord</h3>
-        </div>
-        <div class="app-card" onclick="openFullscreen('https://www.youtube.com/')">
-            <img src="https://via.placeholder.com/200x160" alt="YouTube">
-            <h3>YouTube</h3>
-        </div>
-        <div class="app-card" onclick="openFullscreen('https://www.openai.com/chatgpt')">
-            <img src="https://via.placeholder.com/200x160" alt="ChatGPT">
-            <h3>ChatGPT</h3>
-        </div>
-        <div class="app-card" onclick="openFullscreen('https://www.google.com/drive/')">
-            <img src="https://via.placeholder.com/200x160" alt="Google Drive">
-            <h3>Google Drive</h3>
-        </div>
+    <canvas id="bg" aria-hidden="true"></canvas>
+    <div class="page">
+        <header>
+            <a class="brand" href="index.html"><img src="favicon.ico" alt=""><span>supernova</span></a>
+            <nav class="nav">
+                <a href="index.html">games</a>
+                <a href="apps.html" class="active">apps</a>
+            </nav>
+            <div class="spacer"></div>
+            <div class="stat" data-stat="clock" title="local time"><span></span></div>
+            <div class="stat" data-stat="ping" title="ping"><span>…</span></div>
+            <div class="stat" data-stat="battery" hidden><span></span></div>
+            <div class="search">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input id="search" placeholder="search apps" autocomplete="off">
+            </div>
+            <div class="theme-picker">
+                <button id="theme-trigger" class="theme-trigger" type="button" aria-label="Choose theme" aria-expanded="false"><span></span></button>
+                <div id="theme-menu" class="theme-menu" role="radiogroup" hidden></div>
+            </div>
+        </header>
+        <main>
+            <div class="hero">
+                <img class="hero-logo" src="favicon.ico" alt="">
+                <h1><span class="wrap">supernova<span class="cursor">_</span></span></h1>
+                <p class="pill"><kbd>ctrl</kbd>+<kbd>D</kbd> to bookmark</p>
+            </div>
+            <div id="grid" class="grid"></div>
+            <p id="empty" class="empty" hidden>nothing matches that search</p>
+        </main>
     </div>
-    <footer>
-        <p>&copy; 2024 insert website name</p>
-    </footer>
+    <div id="toast"></div>
+    <footer>&copy; supernova</footer>
 </body>
 </html>
